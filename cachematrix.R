@@ -1,9 +1,19 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Example:
+## x<-matrix(1:4,c(2,2))
+## z<-makeCacheMatrix(x)
+## cacheMatrix(z)   - For this output, the inverse has to be calculated because
+##                  it has not been worked out before. At this point, the
+##                  inverse is stored in z
+## cacheMatrix(z)   - For the output, the function simply returns the inverse
+##                  which is stored in z
 
 
-
-## Write a short comment describing this function
+## The makeCacheMatrix function creates a special "matrix" in the form of a list
+##containing four functions:
+    ## The first sets the the matrix
+    ## The next returns the matrix
+    ## The next sets the inverse of the matrix
+    ## The last one returns the inverse of the matrix
 
 makeCacheMatrix <- function(x = matrix()) {
     v <- NULL
@@ -20,18 +30,20 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
+##The following function calculates the inverse of the special "matrix" created
+##with the above function. However, it first checks to see if the inverse has
+##already been calculated. If so, it gets the inverse from the cache and skips
+##the computation. Otherwise, it calculates the inverse of the matrix and sets
+##the inverse matrix in the cache via the setinverse function.
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-    v <- x$getinverse()
+cacheSolve <- function(z, ...) {
+    v <- z$getinverse()
     if(!is.null(v)) {
         message("getting cached data")
         return(v)
     }
-    data <- x$get()
+    data <- z$get()
     v <- solve(data, ...)
-    x$setinverse(v)
+    z$setinverse(v)
     v
 }
